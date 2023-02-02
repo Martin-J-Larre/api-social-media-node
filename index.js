@@ -14,9 +14,9 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
-app.use('/api', require('./routes/user'));
-app.use('/api', require('./routes/post'));
-app.use('/api', require('./routes/follower'));
+app.use('/api/user', require('./routes/user'));
+app.use('/api/post', require('./routes/post'));
+app.use('/api/follower', require('./routes/follower'));
 
 app.listen(PORT, () => {
   console.log(`Server running on port http://localhost:${PORT}`);
