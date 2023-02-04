@@ -99,8 +99,31 @@ const login = (req, res) => {
   });
 }
 
+const getUser = (req, res) => { 
+  const id = req.params.id;
+
+  User.findById(id)
+      .select({password: 0, role: 0})
+      .exec((error, user) => {
+      if (error || !user) {
+      return res.status(404).json({
+        status: 'error',
+        message: 'User does not exist'
+      });
+    }
+
+    return res.status(200).json({
+      status: 'success',
+      // add fallowers soon
+      user
+    });
+
+  });
+}
+
 
 module.exports = {
   register,
-  login
+  login,
+  getUser
 }
