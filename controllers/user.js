@@ -1,6 +1,7 @@
 const bcrypt = require('bcrypt');
 
 const User = require('../models/User');
+const jwt = require('../utils/jwt');
 
 const register = (req, res) => { 
 
@@ -83,7 +84,7 @@ const login = (req, res) => {
     }
 
     // jwt
-    const token = false;
+    const token = jwt.createToken(user);
 
     return res.status(200).json({
       status: 'success',
