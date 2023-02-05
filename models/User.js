@@ -12,7 +12,10 @@ const UserSchema = new Schema({
   nickname: {
     type: String,
     require: true
-  }, 
+  },
+  bio: {
+    type: String
+  },
   email: {
     type: String,
     required: true

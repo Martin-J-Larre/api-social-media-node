@@ -11,9 +11,8 @@ const auth = (req, res, next) => {
       message: 'Authentication error'
     });
   }
-  console.log("anates", req.headers.authorization);
+
   const token = req.headers.authorization.replace(/['"]+/g, '');
-  console.log('despues', token);
 
   try {
     const payload = jwt.decode(token, secret_key);

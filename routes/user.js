@@ -1,9 +1,16 @@
 const router = require('express').Router();
-const { register, login, getUser } = require('../controllers/user');
 const { auth } = require('../middlewares/auth');
+const { 
+  register, 
+  login, 
+  getUserProfile, 
+  getUsersProfiles, 
+  updateUser} = require('../controllers/user');
 
 router.post('/register', register);
 router.post('/login', login);
-router.get('/user/:id', auth, getUser);
+router.get('/profile/:id', auth, getUserProfile);
+router.get('/profiles/:page?', auth, getUsersProfiles);
+router.put('/profile', auth, updateUser);
 
 module.exports = router;

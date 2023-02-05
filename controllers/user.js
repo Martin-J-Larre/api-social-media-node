@@ -1,14 +1,15 @@
 const bcrypt = require('bcrypt');
+const mongoosePagination = require('mongoose-pagination');
 
 const User = require('../models/User');
 const jwt = require('../utils/jwt');
 
 const register = (req, res) => { 
 
-  const data = req.body;
+  const userToUpdate = req.body;
 
-  if (!data.name || !data.surname || !data.nickname || !data.email || !data.password) {
-    const user = new User(data);
+  if (!userToUpdate.name || !userToUpdate.surname || !userToUpdate.nickname || !userToUpdate.email || !userToUpdate.password) {
+    const user = new User(userToUpdate);
     return res.status(400).json({
       status: 'error',
       message: 'Data entry is missing'
@@ -16,8 +17,8 @@ const register = (req, res) => {
   }
 
   User.find({
-    $or: [{email: data.email.toLowerCase()}, 
-          {nickname: data.nickname.toLowerCase()}]
+    $or: [{email: userToUpdate.email.toLowerCase()}, 
+          {nickname: userToUpdate.nickname.toLowerCase()}]
   }).exec( async (error, users) => {
     if (error) {
       return res.status(500).json({
@@ -32,10 +33,10 @@ const register = (req, res) => {
       });  
     }
 
-    const hashedPassword = await bcrypt.hash(data.password, 10);
-    data.password = hashedPassword;
+    const hashedPassword = await bcrypt.hash(userToUpdate.password, 10);
+    userToUpdate.password = hashedPassword;
 
-    const user = new User(data);
+    const user = new User(userToUpdate);
 
     user.save((error, userSaved) => {
       if (error || !userSaved) {
@@ -55,16 +56,16 @@ const register = (req, res) => {
 
 const login = (req, res) => {
 
-  const data = req.body;
+  const userToUpdate = req.body;
 
-  if (!data.email || !data.password) {
+  if (!userToUpdate.email || !userToUpdate.password) {
     return res.status(400).json({
       status: 'error',
       message: 'You should enter email and password'
     });
   }
 
-  User.findOne({ email: data.email })
+  User.findOne({ email: userToUpdate.email })
       .exec((error, user) => {
 
       if (error || !user) {
@@ -75,7 +76,7 @@ const login = (req, res) => {
       }
 
     // compare bcrypt
-    const userPassword = bcrypt.compareSync(data.password, user.password);
+    const userPassword = bcrypt.compareSync(userToUpdate.password, user.password);
     if (!userPassword) {
       return res.status(400).json({
         status: 'error',
@@ -99,7 +100,7 @@ const login = (req, res) => {
   });
 }
 
-const getUser = (req, res) => { 
+const getUserProfile = (req, res) => { 
   const id = req.params.id;
 
   User.findById(id)
@@ -121,9 +122,112 @@ const getUser = (req, res) => {
   });
 }
 
+const getUsersProfiles = (req, res) => { 
+  let page = 1;
+  if (req.params.page) {
+    page = parseInt(req.params.page);
+  }
+
+  let itemsPerPage = 5;
+
+  User.find().sort('_id').paginate(page, itemsPerPage, (error, users, total) => {
+
+    if (error || !users) {
+      return res.status(404).json({
+        status: 'error',
+        message: 'there are not users available',
+        error
+      });
+    }
+    return res.status(200).json({
+      status: 'success',
+      message: 'Users profiles found successfully',
+      page,
+      itemsPerPage,
+      total,
+      pages: Math.ceil(total/itemsPerPage), 
+      users
+    });
+  });
+
+}
+
+const updateUser = (req, res) => { 
+
+  const userIdentity = req.user;
+  delete userIdentity.iat;
+  delete userIdentity.exp;
+  delete userIdentity.role;
+  delete userIdentity.avatar;
+
+  const userToUpdate = req.body;
+  console.log('userToUpdate', userToUpdate.email);
+  console.log('userToUpdate', userToUpdate.nickname);
+
+  User.find({
+    $or: [{email: userToUpdate.email.toLowerCase()}, 
+          {nickname: userToUpdate.nickname.toLowerCase()}]
+  }).exec( async (error, users) => {
+    if (error) {
+      return res.status(500).json({
+        status: 'error', 
+        message: 'query error'
+      });
+    } 
+
+    let userIsset = false;
+    users.forEach(user => {
+      if (user && user._id != user.id) {
+        userIsset = true;
+      }
+    });
+
+    if (userIsset) {
+      return res.status(200).json({
+        status: 'success',
+        message: 'Nickname or email already exist'
+      });  
+    }
+
+    if (userToUpdate.password) {
+      const hashedPassword = await bcrypt.hash(userToUpdate.password, 10);
+      userToUpdate.password = hashedPassword;
+    }
+
+    User.findByIdAndUpdate(userIdentity.id, userToUpdate, { new: true }, (error, userUpdated) => {
+      if (error || !userUpdated) {
+        return res.status(500).json({
+          status: 'error',
+          message: 'User could not Update',
+          error
+        });
+      }
+
+      return res.status(200).json({
+        status: 'success',
+        message: 'Everything is Ok',
+        userUpdated
+      });
+    });
+  });
+
+}
+
 
 module.exports = {
   register,
   login,
-  getUser
+  getUserProfile,
+  getUsersProfiles,
+  updateUser
 }
+
+// return res.status(200).json({
+//   status: 'success',
+//   message: 'Everything is Ok',
+// });
+
+// return res.status(404).json({
+//   status: 'error',
+//   message: 'Something is wrong',
+// });
