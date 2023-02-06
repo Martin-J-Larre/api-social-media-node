@@ -1,10 +1,12 @@
 const mongoosePagination = require('mongoose-pagination');
 const bcrypt = require('bcrypt');
 const fs = require('fs');
+const path = require('path');
 
 
 const User = require('../models/User');
 const jwt = require('../utils/jwt');
+const { exists } = require('../models/User');
 
 const register = (req, res) => { 
 
@@ -258,6 +260,23 @@ const uploadAvatar = (req, res) => {
   });
 }
 
+const getAvatar = (req, res) => {
+
+  const file = req.params.file;
+
+  const filePath = './uploads/avatars/' + file;
+
+  fs.stat(filePath, (error, exists) => {
+    if (error || !exists) {
+      return res.status(404).json({
+        status: 'error',
+        message: 'Error file avatar does not exist'
+      });
+    }
+
+    return res.sendFile(path.resolve(filePath));
+  });
+}
 
 
 module.exports = {
@@ -266,7 +285,8 @@ module.exports = {
   getUserProfile,
   getUsersProfiles,
   updateUser,
-  uploadAvatar
+  uploadAvatar, 
+  getAvatar
 }
 
 // return res.status(200).json({

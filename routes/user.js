@@ -7,7 +7,8 @@ const {
   getUserProfile, 
   getUsersProfiles, 
   updateUser,
-  uploadAvatar} = require('../controllers/user');
+  uploadAvatar,
+  getAvatar} = require('../controllers/user');
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -25,6 +26,7 @@ router.post('/login', login);
 router.post('/upload-avatar', [auth, uploads.single('file')], uploadAvatar);
 router.get('/profile/:id', auth, getUserProfile);
 router.get('/profiles/:page?', auth, getUsersProfiles);
+router.get('/avatar/:file', auth, getAvatar);
 router.put('/profile', auth, updateUser);
 
 module.exports = router;
