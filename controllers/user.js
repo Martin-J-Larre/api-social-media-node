@@ -1,5 +1,7 @@
-const bcrypt = require('bcrypt');
 const mongoosePagination = require('mongoose-pagination');
+const bcrypt = require('bcrypt');
+const fs = require('fs');
+
 
 const User = require('../models/User');
 const jwt = require('../utils/jwt');
@@ -135,8 +137,7 @@ const getUsersProfiles = (req, res) => {
     if (error || !users) {
       return res.status(404).json({
         status: 'error',
-        message: 'there are not users available',
-        error
+        message: 'there are not users available'
       });
     }
     return res.status(200).json({
@@ -161,8 +162,6 @@ const updateUser = (req, res) => {
   delete userIdentity.avatar;
 
   const userToUpdate = req.body;
-  console.log('userToUpdate', userToUpdate.email);
-  console.log('userToUpdate', userToUpdate.nickname);
 
   User.find({
     $or: [{email: userToUpdate.email.toLowerCase()}, 
@@ -198,8 +197,7 @@ const updateUser = (req, res) => {
       if (error || !userUpdated) {
         return res.status(500).json({
           status: 'error',
-          message: 'User could not Update',
-          error
+          message: 'User could not Update'
         });
       }
 
@@ -213,13 +211,62 @@ const updateUser = (req, res) => {
 
 }
 
+const uploadAvatar = (req, res) => {
+
+  if (!req.file) {
+    return res.status(404).json({
+      status: 'error',
+      message: 'Query does not have image file'
+    });
+  }
+
+  const avatarFileName = req.file.originalname;
+  const avatarNameSplit = avatarFileName.split('\.');
+  const avatarExtension = avatarNameSplit[1];
+
+  if (avatarExtension != 'png' && avatarExtension != 'jpg' &&
+      avatarExtension != 'jpeg' && avatarExtension != 'gif') {
+
+        const filePath = req.file.path;
+        const fileDeleted = fs.unlinkSync(filePath);
+
+        return res.status(400).json({
+          status: 'error',
+          message: 'File format not valid'
+        });
+  }
+
+  User.findOneAndUpdate(
+    req.user.id, 
+    {avatar: req.file.filename}, 
+    {new: true}, 
+    (error, userUpdated) => {
+
+      if (error || !userUpdated) {
+        return res.status(500).json({
+          status: 'error',
+          message: 'Error user could not be updated'
+        });
+      }
+
+      return res.status(200).json({
+        status: 'success',
+        message: 'User updated successfuly',
+        userUpdated,
+        file: req.file
+      });
+  });
+}
+
+
 
 module.exports = {
   register,
   login,
   getUserProfile,
   getUsersProfiles,
-  updateUser
+  updateUser,
+  uploadAvatar
 }
 
 // return res.status(200).json({
