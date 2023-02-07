@@ -6,7 +6,6 @@ const path = require('path');
 
 const User = require('../models/User');
 const jwt = require('../utils/jwt');
-const { exists } = require('../models/User');
 
 const register = (req, res) => { 
 
@@ -206,6 +205,7 @@ const updateUser = (req, res) => {
       return res.status(200).json({
         status: 'success',
         message: 'Everything is Ok',
+        userIdentity,
         userUpdated
       });
     });
@@ -238,7 +238,8 @@ const uploadAvatar = (req, res) => {
         });
   }
 
-  User.findOneAndUpdate(
+  console.log("User id ************************", req.user.id);
+  User.findByIdAndUpdate(
     req.user.id, 
     {avatar: req.file.filename}, 
     {new: true}, 
@@ -288,13 +289,3 @@ module.exports = {
   uploadAvatar, 
   getAvatar
 }
-
-// return res.status(200).json({
-//   status: 'success',
-//   message: 'Everything is Ok',
-// });
-
-// return res.status(404).json({
-//   status: 'error',
-//   message: 'Something is wrong',
-// });
