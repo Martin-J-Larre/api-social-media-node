@@ -1,18 +1,18 @@
-const { Schema, model} = require('mongoose');
+const { Schema, model } = require("mongoose");
 
-const FallowSchema = new Schema({
+const FollowSchema = new Schema({
   user: {
     type: Schema.ObjectId,
-    ref: 'User'
+    ref: "User",
   },
   followed: {
     type: Schema.ObjectId,
-    ref: 'User'
+    ref: "User",
   },
   created_at: {
     type: Date,
-    default: Date.now()
-  }
+    default: Date.now(),
+  },
 });
 
-module.exports = model('Follow', FallowSchema);
+module.exports = model("Follow", FollowSchema);
