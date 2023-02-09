@@ -2,7 +2,7 @@ const mongoosePagination = require("mongoose-pagination");
 
 const Follow = require("../models/Follow");
 const User = require("../models/User");
-const { followerUserIds } = require("../utils/followerUserId");
+const { followerUserIds } = require("../utils/followerIdUtils");
 
 const saveFallow = (req, res) => {
   const data = req.body;
@@ -86,10 +86,35 @@ const listFollowing = (req, res) => {
 };
 
 const listFollowers = (req, res) => {
-  return res.status(200).json({
-    status: "success",
-    message: "Followers is all ok",
-  });
+  let userId = req.user.id;
+  let page = 1;
+  const itemsPerPage = 5;
+
+  if (req.params.id) userId = req.params.id;
+  if (req.params.page) page = req.params.page;
+
+  Follow.find({ followed: userId })
+    .populate("user", "-password -role -__v")
+    .paginate(page, itemsPerPage, async (error, follows, total) => {
+      if (error) {
+        return res.status(500).json({
+          status: "error",
+          message: "Error the query could not be processed",
+        });
+      }
+      const followUserIds = await followerUserIds(req.user.id);
+      return res.status(200).json({
+        status: "success",
+        message: "Followers is all ok",
+        page,
+        itemsPerPage,
+        total,
+        pages: Math.ceil(total / itemsPerPage),
+        userFollowing: followUserIds.following,
+        userFollowers: followUserIds.followers,
+        follows,
+      });
+    });
 };
 
 module.exports = {

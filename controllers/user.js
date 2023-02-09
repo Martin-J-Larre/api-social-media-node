@@ -5,7 +5,7 @@ const path = require("path");
 
 const User = require("../models/User");
 const jwt = require("../utils/jwt");
-const { followThisUser } = require("../utils/followerUserId");
+const { followerUserIds } = require("../utils/followerIdUtils");
 
 const register = (req, res) => {
   const userToUpdate = req.body;
@@ -144,13 +144,14 @@ const getUsersProfiles = (req, res) => {
 
   User.find()
     .sort("_id")
-    .paginate(page, itemsPerPage, (error, users, total) => {
+    .paginate(page, itemsPerPage, async (error, users, total) => {
       if (error || !users) {
         return res.status(404).json({
           status: "error",
           message: "there are not users available",
         });
       }
+      const followUserIds = await followerUserIds(req.user.id);
       return res.status(200).json({
         status: "success",
         message: "Users profiles found successfully",
@@ -158,6 +159,8 @@ const getUsersProfiles = (req, res) => {
         itemsPerPage,
         total,
         pages: Math.ceil(total / itemsPerPage),
+        userFollowing: followUserIds.following,
+        userFollowers: followUserIds.followers,
         users,
       });
     });
