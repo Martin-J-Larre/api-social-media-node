@@ -143,6 +143,7 @@ const getUsersProfiles = (req, res) => {
   let itemsPerPage = 5;
 
   User.find()
+    .select("-password -email -role -__v")
     .sort("_id")
     .paginate(page, itemsPerPage, async (error, users, total) => {
       if (error || !users) {
@@ -257,7 +258,6 @@ const uploadAvatar = (req, res) => {
     });
   }
 
-  console.log("User id ************************", req.user.id);
   User.findByIdAndUpdate(
     req.user.id,
     { avatar: req.file.filename },

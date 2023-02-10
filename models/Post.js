@@ -9,7 +9,7 @@ const PostSchema = new Schema({
     type: String,
     require: true,
   },
-  file: {
+  image: {
     type: String,
   },
   created_at: {

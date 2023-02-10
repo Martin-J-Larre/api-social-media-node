@@ -62,7 +62,7 @@ const listFollowing = (req, res) => {
   if (req.params.page) page = req.params.page;
 
   Follow.find({ user: userId })
-    .populate("followed", "-password -role -__v")
+    .populate("followed", "-password -role -__v -email")
     .paginate(page, itemsPerPage, async (error, follows, total) => {
       if (error) {
         return res.status(500).json({
@@ -94,7 +94,7 @@ const listFollowers = (req, res) => {
   if (req.params.page) page = req.params.page;
 
   Follow.find({ followed: userId })
-    .populate("user", "-password -role -__v")
+    .populate("user", "-password -role -__v -email")
     .paginate(page, itemsPerPage, async (error, follows, total) => {
       if (error) {
         return res.status(500).json({
