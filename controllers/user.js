@@ -6,28 +6,40 @@ const path = require("path");
 const User = require("../models/User");
 const jwt = require("../utils/jwt");
 const { followerUserIds } = require("../utils/followerIdUtils");
+const { validate } = require("../utils/validate");
+const Follow = require("../models/Follow");
+const Post = require("../models/Post");
 
 const register = (req, res) => {
-  const userToUpdate = req.body;
+  const data = req.body;
 
   if (
-    !userToUpdate.name ||
-    !userToUpdate.surname ||
-    !userToUpdate.nickname ||
-    !userToUpdate.email ||
-    !userToUpdate.password
+    !data.name ||
+    !data.surname ||
+    !data.nickname ||
+    !data.email ||
+    !data.password
   ) {
-    const user = new User(userToUpdate);
+    const user = new User(data);
     return res.status(400).json({
       status: "error",
       message: "Data entry is missing",
     });
   }
 
+  try {
+    validate(data);
+  } catch (error) {
+    return res.status(400).json({
+      status: "error",
+      message: "Validation error",
+    });
+  }
+
   User.find({
     $or: [
-      { email: userToUpdate.email.toLowerCase() },
-      { nickname: userToUpdate.nickname.toLowerCase() },
+      { email: data.email.toLowerCase() },
+      { nickname: data.nickname.toLowerCase() },
     ],
   }).exec(async (error, users) => {
     if (error) {
@@ -43,10 +55,10 @@ const register = (req, res) => {
       });
     }
 
-    const hashedPassword = await bcrypt.hash(userToUpdate.password, 10);
-    userToUpdate.password = hashedPassword;
+    const hashedPassword = await bcrypt.hash(data.password, 10);
+    data.password = hashedPassword;
 
-    const user = new User(userToUpdate);
+    const user = new User(data);
 
     user.save((error, userSaved) => {
       if (error || !userSaved) {
@@ -206,6 +218,8 @@ const updateUser = (req, res) => {
     if (userToUpdate.password) {
       const hashedPassword = await bcrypt.hash(userToUpdate.password, 10);
       userToUpdate.password = hashedPassword;
+    } else {
+      delete userToUpdate.password;
     }
 
     User.findByIdAndUpdate(
@@ -297,6 +311,34 @@ const getAvatar = (req, res) => {
   });
 };
 
+const counter = async (req, res) => {
+  let userId = req.user.id;
+
+  if (req.params.id) {
+    userId = req.params.id;
+  }
+
+  try {
+    const following = await Follow.count({ user: userId });
+
+    const followed = await Follow.count({ followed: userId });
+
+    const posts = await Post.count({ user: userId });
+
+    res.status(200).json({
+      userId,
+      following: following,
+      followed: followed,
+      posts: posts,
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: "error",
+      message: "Error conter is not avaible",
+    });
+  }
+};
+
 module.exports = {
   register,
   login,
@@ -305,4 +347,5 @@ module.exports = {
   updateUser,
   uploadAvatar,
   getAvatar,
+  counter,
 };

@@ -54,7 +54,7 @@ const uploadImgPost = (req, res) => {
     avatarExtension != "gif"
   ) {
     const filePath = req.file.path;
-    const fileDeleted = fs.unlinkSync(filePath);
+    fs.unlinkSync(filePath);
 
     return res.status(400).json({
       status: "error",

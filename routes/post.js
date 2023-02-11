@@ -25,7 +25,7 @@ const uploads = multer({ storage });
 
 router.post("/save", auth, createPost);
 router.post("/upload-img/:id", [auth, uploads.single("image")], uploadImgPost);
-router.get("/image/:file", auth, getImage);
+router.get("/image/:file", getImage);
 router.get("/feed/:page?", auth, getFeedPosts);
 router.get("/detail/:id", auth, getOnePost);
 router.get("/user/:id/:page?", auth, getUserPosts);
