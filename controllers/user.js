@@ -5,13 +5,14 @@ const path = require("path");
 
 const User = require("../models/User");
 const jwt = require("../utils/jwt");
-const { followerUserIds } = require("../utils/followerIdUtils");
+const { followThisUser, followerUserIds } = require("../utils/followerIdUtils");
 const { validate } = require("../utils/validate");
 const Follow = require("../models/Follow");
 const Post = require("../models/Post");
 
 const register = (req, res) => {
   const data = req.body;
+  console.log(data);
 
   if (
     !data.name ||
@@ -190,8 +191,8 @@ const updateUser = (req, res) => {
 
   User.find({
     $or: [
-      { email: userToUpdate.email.toLowerCase() },
-      { nickname: userToUpdate.nickname.toLowerCase() },
+      { email: userIdentity.email.toLowerCase() },
+      { nickname: userIdentity.nickname.toLowerCase() },
     ],
   }).exec(async (error, users) => {
     if (error) {
@@ -236,7 +237,7 @@ const updateUser = (req, res) => {
 
         return res.status(200).json({
           status: "success",
-          message: "Everything is Ok",
+          message: "User updated successfully",
           userIdentity,
           userUpdated,
         });

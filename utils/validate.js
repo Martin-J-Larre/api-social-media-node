@@ -28,7 +28,7 @@ const validate = (data) => {
     }
   }
 
-  if (!name || !surname || !nickname || !email || !bio) {
+  if (!name || !surname || !nickname || !email || !password) {
     throw new Error("Validation Error");
   }
 };
