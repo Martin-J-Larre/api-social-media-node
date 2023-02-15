@@ -9,16 +9,17 @@ This a RESTful API with node for a ...
 - Moment
 - Validator
 - Bcrypt
-- jwt-simple
+- Jwt-simple
 - Mongo Atlas DB
 - Mongoose
 - Multer
 
-## CRUD and Endpoints 
+## CRUD and Endpoints User
 
 ### Post
-Create article:   
-`https://`
+Create user:   
+`https://api-social-media-node.onrender.com/api/user/register`
+![alt text](https://github.com/Martin-J-Larre/api-social-media-node/blob/main/public/img/post-1.png?raw=true)
 
 Post image:   
 `https://`
