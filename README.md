@@ -18,7 +18,8 @@ This a RESTful API with node for a ...
 
 ### Post
 Create user:   
-`https://api-social-media-node.onrender.com/api/user/register`
+`https://api-social-media-node.onrender.com/api/user/register`  
+
 ![alt text](https://github.com/Martin-J-Larre/api-social-media-node/blob/main/public/img/post-1.png?raw=true)
 
 Post image:   
