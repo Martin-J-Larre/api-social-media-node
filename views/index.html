@@ -54,7 +54,7 @@
     <p>Add Token to Authorization in headers</p>
     <hr />
     <ul>
-      <li><h4>Get Users Profiles</h4></li>
+      <li><h4>Get Users Profiles( page in params optional)</h4></li>
       <li class="links">
         https://api-social-media-node.onrender.com/api/user/profiles/2
       </li>
@@ -62,7 +62,7 @@
     <p>Add Token to Authorization in headers</p>
     <hr />
     <ul>
-      <li><h4>Get imagen avatar</h4></li>
+      <li><h4>Get imagen avatar ( filename in params )</h4></li>
       <li class="links">
         https://api-social-media-node.onrender.com/api/user/avatar/avatar-1676177126160-lajoya.png
       </li>
@@ -77,6 +77,7 @@
     </ul>
     <p>Add Token to Authorization in headers</p>
     <hr />
+    <h3>Put</h3>
     <ul>
       <li><h4>Update user data</h4></li>
       <li class="links">
@@ -88,6 +89,139 @@
     <div class="img-container">
       <img src="img/img-update.png" />
     </div>
+    <hr />
+    <hr />
+    <h2>Follow</h2>
+    <h3>Post</h3>
+    <ul>
+      <li><h4>Follow a user</h4></li>
+      <li class="links">
+        https://api-social-media-node.onrender.com/api/follow/save
+      </li>
+    </ul>
+    <p>Add Token to Authorization in headers</p>
+    <p>Id user to follow in value</p>
+    <div class="img-container">
+      <img src="img/follow-1.png" />
+    </div>
+    <hr />
+    <h3>Get</h3>
+    <ul>
+      <li><h4>Users following ( user auth )</h4></li>
+      <li class="links">
+        https://api-social-media-node.onrender.com/api/follow/following
+      </li>
+    </ul>
+    <p>Add Token to Authorization in headers</p>
+    <ul>
+      <li>
+        <h4>
+          Users following ( id another user in params/page in params optional )
+        </h4>
+      </li>
+      <li class="links">
+        https://api-social-media-node.onrender.com/api/follow/following/63e1d31c96976751ba21c66d/1
+      </li>
+    </ul>
+    <hr />
+    <ul>
+      <li><h4>Users followers ( user auth )</h4></li>
+      <li class="links">
+        https://api-social-media-node.onrender.com/api/follow/followers
+      </li>
+    </ul>
+    <p>Add Token to Authorization in headers</p>
+    <ul>
+      <li>
+        <h4>
+          Users followers ( id another user in params/page in params optional )
+        </h4>
+      </li>
+      <li class="links">
+        https://api-social-media-node.onrender.com/api/follow/followers/63e1d31c96976751ba21c66d/1
+      </li>
+    </ul>
+    <hr />
+    <h3>Delete</h3>
+    <ul>
+      <li><h4>Users fallowed ( id user followed in params )</h4></li>
+      <li class="links">
+        https://api-social-media-node.onrender.com/api/delete/63e8609fe68b5544b12410ab
+      </li>
+    </ul>
+    <p>Add Token to Authorization in headers</p>
+    <hr />
+    <hr />
+    <h2>Post (Publications)</h2>
+    <h3>Post</h3>
+    <ul>
+      <li><h4>Create a post ( Publications )</h4></li>
+      <li class="links">
+        https://api-social-media-node.onrender.com/api/post/save
+      </li>
+    </ul>
+    <p>Add Token to Authorization in headers</p>
+    <div class="img-container">
+      <img src="img/postmodel-1.png" />
+    </div>
+    <hr />
+    <ul>
+      <li><h4>Upload image ( id post/publication in params )</h4></li>
+      <li class="links">
+        https://api-social-media-node.onrender.com/api/post/upload-img/63ec556ca76c93d967b24165
+      </li>
+    </ul>
+    <p>Add Token to Authorization in headers</p>
+    <div class="img-container">
+      <img src="img/post-4.png" />
+    </div>
+    <hr />
+    <h3>Get</h3>
+    <ul>
+      <li><h4>Get image file ( filename in params )</h4></li>
+      <li class="links">
+        https://api-social-media-node.onrender.com/api/post/image/post-1676435317435-avatar-messi.png
+      </li>
+    </ul>
+    <p>Add Token to Authorization in headers</p>
+    <hr />
+    <ul>
+      <li><h4>Get feed users (page in params optional)</h4></li>
+      <li class="links">
+        https://api-social-media-node.onrender.com/api/post/feed/1
+      </li>
+    </ul>
+    <p>Add Token to Authorization in headers</p>
+    <hr />
+    <ul>
+      <li><h4>Get detail/one post (id post in params)</h4></li>
+      <li class="links">
+        https://api-social-media-node.onrender.com/api/post/detail/63ec556ca76c93d967b24165
+      </li>
+    </ul>
+    <p>Add Token to Authorization in headers</p>
+    <hr />
+    <ul>
+      <li>
+        <h4>
+          Get user/another user posts (id user in params/ optinal page in
+          params)
+        </h4>
+      </li>
+      <li class="links">
+        https://api-social-media-node.onrender.com/aapi/post/user/63e860dbe68b5544b12410ae/1
+      </li>
+    </ul>
+    <p>Add Token to Authorization in headers</p>
+    <hr />
+    <h3>Delete</h3>
+    <ul>
+      <li><h4>Delete Post/Publication ( id post in params )</h4></li>
+      <li class="links">
+        https://api-social-media-node.onrender.com/api/delete/63e488ac0007a062f77acca0
+      </li>
+    </ul>
+    <p>Add Token to Authorization in headers</p>
     <hr />
   </body>
 </html>

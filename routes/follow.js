@@ -9,8 +9,8 @@ const {
 } = require("../controllers/follow");
 
 router.post("/save", auth, saveFallow);
-router.delete("/delete/:id", auth, deleteFollow);
 router.get("/following/:id?/:page?", auth, listFollowing);
 router.get("/followers/:id?/:page?", auth, listFollowers);
+router.delete("/delete/:id", auth, deleteFollow);
 
 module.exports = router;
