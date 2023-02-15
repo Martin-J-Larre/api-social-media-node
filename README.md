@@ -22,15 +22,19 @@ Create user:
 
 ![alt text](https://github.com/Martin-J-Larre/api-social-media-node/blob/main/public/img/post-1.png?raw=true)
 
-Post image:   
-`https://`
+Login:   
+`https://api-social-media-node.onrender.com/api/user/login`  
 
-### Get
-Get :   
-`https://`
+![alt text](https://github.com/Martin-J-Larre/api-social-media-node/blob/main/public/img/post-2.png?raw=true)
 
-Get :   
-`https://`
+Add token authorization in Headers that is in response login for all routes that need auth:   
+
+![alt text](https://github.com/Martin-J-Larre/api-social-media-node/blob/main/public/img/post-3.png?raw=true)
+
+Upload avatar file:   
+`https://api-social-media-node.onrender.com/api/user/upload-avatar`  
+
+![alt text](https://github.com/Martin-J-Larre/api-social-media-node/blob/main/public/img/post-4.png?raw=true)
 
 
 ## Server runnig for check
