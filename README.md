@@ -77,15 +77,19 @@ Id user to follow in value
 ### Get
 
 Users following (user auth):
+
 `https://api-social-media-node.onrender.com/api/follow/following`
 
 Users following (id another user in params/page in params optional):
+
 `https://api-social-media-node.onrender.com/api/follow/following/63e1d31c96976751ba21c66d/1`
 
 Users followers (user auth):
+
 `https://api-social-media-node.onrender.com/api/follow/followers`
 
 Users followers (id another user in params/page in params optional):
+
 `https://api-social-media-node.onrender.com/api/follow/followers/63e1d31c96976751ba21c66d/1`
 
 ### Delete
