@@ -1,8 +1,9 @@
 # api-social-media-node
-This a RESTful API with node for a ...
+This a RESTful API with node for a social media app similar to Twitter. You can sign up as a user, go through authentication and validation, post content with images and fallow and be followed by other users.
 ## Built with
 
 - NodeJS (CommonJS)
+- Design pattern MVC
 - Express
 - Cors
 - Dotenv
