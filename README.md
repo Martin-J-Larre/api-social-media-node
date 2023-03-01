@@ -16,7 +16,7 @@ This a RESTful API with node for a social media app similar to Twitter. You can 
 - Multer
 
 
-You can check this app with postman in a running server with all endpoints below.
+You can check this app with postman in a server running with all endpoints below.
 
 ## CRUD and Endpoints User
 
@@ -63,7 +63,7 @@ Update user data:
 
 `https://api-social-media-node.onrender.com/api/user/update`
 
-You can update all these fiels
+You can update all these fields
 
 ![alt text](https://github.com/Martin-J-Larre/api-social-media-node/blob/main/public/img/img-update.png?raw=true)
 
@@ -142,6 +142,6 @@ Delete Post/Publication (id post in params)
 
 `https://api-social-media-node.onrender.com/api/delete/63e488ac0007a062f77acca0`
 
-## Server runnig for check
+## Server running for check
 
 - URL - [https://api-social-media-node.onrender.com/](https://api-social-media-node.onrender.com/)
