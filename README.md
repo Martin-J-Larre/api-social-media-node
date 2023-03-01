@@ -1,4 +1,4 @@
-# api-social-media-node
+# Api-social-media-node
 This a RESTful API with node for a social media app similar to Twitter. You can sign up as a user, go through authentication and validation, post content with images and fallow and be followed by other users.
 ## Built with
 
@@ -14,6 +14,9 @@ This a RESTful API with node for a social media app similar to Twitter. You can 
 - Mongo Atlas DB
 - Mongoose
 - Multer
+
+
+You can check this app with postman in a running server with all endpoints below.
 
 ## CRUD and Endpoints User
 
